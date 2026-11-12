@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="page-panel rounded-borders q-pa-md" style="max-width: 1100px; margin: 0 auto">
+    <div class="page-panel cart-panel rounded-borders q-pa-md">
       <div class="text-h5 text-center text-italic text-weight-bold q-mb-md">Carrito de Compras</div>
 
       <div v-if="!carrito.length" class="text-center text-grey-7">No has agregado anuncios al carrito</div>
@@ -30,5 +30,9 @@ import { carrito, quitarDelCarrito } from '@/composables/carrito'
 <style scoped>
 .cuadro-negro {
   border: 2px solid black;
+}
+.cart-panel {
+  width: 100%;
+  min-height: calc(100vh - 90px);
 }
 </style>

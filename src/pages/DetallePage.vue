@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md q-pb-xl">
-    <div class="page-panel rounded-borders q-pa-md" style="max-width: 1100px; margin: 0 auto">
+    <div class="page-panel detail-panel rounded-borders q-pa-md">
       <div class="row q-col-gutter-xl">
         <div class="col-12 col-md-6">
           <q-carousel
@@ -104,5 +104,9 @@ onMounted(async () => {
 .phone-photo {
   width: 100%;
   height: 100%;
+}
+.detail-panel {
+  width: 100%;
+  min-height: calc(100vh - 90px);
 }
 </style>

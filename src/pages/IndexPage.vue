@@ -205,19 +205,19 @@ onMounted(async () => {
   border: 1px solid #d8ded9;
 }
 .filter-card--green {
-  background: linear-gradient(145deg, #dce7df, #b8c9bd);
+  background: linear-gradient(145deg, #b9e7c5, #75bd8a);
 }
 .filter-card--olive {
-  background: linear-gradient(145deg, #e3e8d8, #c3cbb5);
+  background: linear-gradient(145deg, #d9e99a, #a8c65b);
 }
 .filter-card--sage {
-  background: linear-gradient(145deg, #d9e4de, #b8c8bf);
+  background: linear-gradient(145deg, #a8e3d2, #5eb99d);
 }
 .filter-toolbar--green {
-  background: linear-gradient(145deg, #e1e9e3, #c4d0c7);
+  background: linear-gradient(145deg, #c8edcf, #95d3a4);
 }
 .filter-toolbar--sage {
-  background: linear-gradient(145deg, #d8e3de, #aebfb5);
+  background: linear-gradient(145deg, #b9e8d9, #80cbb4);
 }
 .pagination-row {
   margin-top: 64px;
