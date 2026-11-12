@@ -2,7 +2,7 @@
   <q-page class="catalog-page q-pa-md">
     <div class="catalog-shell rounded-borders q-pa-md column">
     <div class="row q-col-gutter-md">
-      <div class="col-12 col-md-3 gt-sm">
+      <div class="col-12 col-md-3 gt-sm filter-sidebar">
         <q-toggle v-model="soloNuevo" label="Nuevo" color="primary" />
         <q-card class="filter-card filter-card--green cuadro-negro q-mb-md">
           <q-card-section class="text-subtitle2">Marca</q-card-section>
@@ -201,23 +201,29 @@ onMounted(async () => {
   max-width: 1600px;
   min-height: calc(100vh - 90px);
   margin: 0 auto;
-  background: #fff;
+  background: #e8f1e8;
   border: 1px solid #d8ded9;
 }
 .filter-card--green {
-  background: linear-gradient(145deg, #b9e7c5, #75bd8a);
+  background: #c8dfca;
 }
-.filter-card--olive {
-  background: linear-gradient(145deg, #d9e99a, #a8c65b);
-}
+.filter-card--olive,
 .filter-card--sage {
-  background: linear-gradient(145deg, #a8e3d2, #5eb99d);
+  background: #c8dfca;
 }
 .filter-toolbar--green {
-  background: linear-gradient(145deg, #c8edcf, #95d3a4);
+  background: #c8dfca;
 }
 .filter-toolbar--sage {
-  background: linear-gradient(145deg, #b9e8d9, #80cbb4);
+  background: #c8dfca;
+}
+.filter-sidebar {
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
+  max-height: calc(100vh - 96px);
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 .pagination-row {
   margin-top: 64px;
