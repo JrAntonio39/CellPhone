@@ -1,10 +1,10 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="bg-green-2 rounded-borders cuadro-negro q-pa-md column" style="max-width: 1200px; min-height: calc(100vh - 90px); margin: 0 auto">
+  <q-page class="catalog-page q-pa-md">
+    <div class="catalog-shell rounded-borders q-pa-md column">
     <div class="row q-col-gutter-md">
       <div class="col-12 col-md-3 gt-sm">
         <q-toggle v-model="soloNuevo" label="Nuevo" color="primary" />
-        <q-card class="bg-green-3 cuadro-negro q-mb-md">
+        <q-card class="filter-card filter-card--green cuadro-negro q-mb-md">
           <q-card-section class="text-subtitle2">Marca</q-card-section>
           <q-card-section class="q-pt-none column">
             <q-checkbox dense v-model="marcas" val="Samsung" color="secondary" label="Samsung" />
@@ -14,7 +14,7 @@
             <q-checkbox dense v-model="marcas" val="Xiaomi" color="secondary" label="Xiaomi" />
           </q-card-section>
         </q-card>
-        <q-card class="bg-light-green-2 cuadro-negro q-mb-md">
+        <q-card class="filter-card filter-card--olive cuadro-negro q-mb-md">
           <q-card-section class="text-subtitle2">Sistema</q-card-section>
           <q-card-section class="q-pt-none column">
             <q-checkbox dense v-model="sistemas" val="Android" color="secondary" label="Android" />
@@ -22,7 +22,7 @@
             <q-checkbox dense v-model="sistemas" val="Ios" color="secondary" label="Ios" />
           </q-card-section>
         </q-card>
-        <q-card class="bg-teal-2 cuadro-negro">
+        <q-card class="filter-card filter-card--sage cuadro-negro">
           <q-card-section class="text-subtitle2">Pantalla</q-card-section>
           <q-card-section class="q-pt-none column">
             <q-checkbox dense v-model="pantallas" val="6.0" color="secondary" label="6.0" />
@@ -35,7 +35,7 @@
       <div class="col-12 col-md-9">
         <div class="row q-col-gutter-md q-mb-md">
           <div class="col-auto gt-sm">
-            <q-card class="bg-light-green-3 cuadro-negro q-pa-sm row items-center q-gutter-sm" style="height: 100%">
+            <q-card class="filter-toolbar filter-toolbar--green cuadro-negro q-pa-sm row items-center q-gutter-sm" style="height: 100%">
               <span>Precio:</span>
               <q-input v-model="precioDesde" dense outlined bg-color="white" prefix="$" style="width:90px" type="number" />
               <span>Hasta:</span>
@@ -43,7 +43,7 @@
             </q-card>
           </div>
           <div class="col-auto gt-sm">
-            <q-card class="bg-teal-3 cuadro-negro q-pa-sm row items-center q-gutter-sm" style="height: 100%">
+            <q-card class="filter-toolbar filter-toolbar--sage cuadro-negro q-pa-sm row items-center q-gutter-sm" style="height: 100%">
               <span>Ordenar por:</span>
               <q-select v-model="orden" :options="ordenes" emit-value map-options dense outlined bg-color="white" options-dense style="width: 110px" />
             </q-card>
@@ -60,7 +60,7 @@
               <q-menu>
                 <div class="q-pa-md scroll" style="width: 230px; max-height: 70vh">
                   <q-toggle v-model="soloNuevo" label="Nuevo" color="primary" class="q-mb-sm" />
-                  <q-card class="bg-green-3 cuadro-negro q-mb-sm">
+                  <q-card class="filter-card filter-card--green cuadro-negro q-mb-sm">
                     <q-card-section class="text-subtitle2 q-pb-xs">Marca</q-card-section>
                     <q-card-section class="q-pt-none column">
                       <q-checkbox dense v-model="marcas" val="Samsung" color="secondary" label="Samsung" />
@@ -70,7 +70,7 @@
                       <q-checkbox dense v-model="marcas" val="Xiaomi" color="secondary" label="Xiaomi" />
                     </q-card-section>
                   </q-card>
-                  <q-card class="bg-light-green-2 cuadro-negro q-mb-sm">
+                  <q-card class="filter-card filter-card--olive cuadro-negro q-mb-sm">
                     <q-card-section class="text-subtitle2 q-pb-xs">Sistema</q-card-section>
                     <q-card-section class="q-pt-none column">
                       <q-checkbox dense v-model="sistemas" val="Android" color="secondary" label="Android" />
@@ -78,7 +78,7 @@
                       <q-checkbox dense v-model="sistemas" val="Ios" color="secondary" label="Ios" />
                     </q-card-section>
                   </q-card>
-                  <q-card class="bg-teal-2 cuadro-negro">
+                  <q-card class="filter-card filter-card--sage cuadro-negro">
                     <q-card-section class="text-subtitle2 q-pb-xs">Pantalla</q-card-section>
                     <q-card-section class="q-pt-none column">
                       <q-checkbox dense v-model="pantallas" val="6.0" color="secondary" label="6.0" />
@@ -92,7 +92,7 @@
           </div>
         </div>
 
-        <div class="row q-col-gutter-md">
+        <div class="row q-col-gutter-md product-grid">
           <div v-for="anuncio in paginados" :key="anuncio.id" class="col-6 col-md-3">
             <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro cursor-pointer column" style="height: 100%">
               <q-img :src="fotoUrl(anuncio)" ratio="1" fit="contain" class="bg-grey-2" />
@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <div class="row justify-center items-center q-mt-auto q-pt-lg q-col-gutter-md">
+        <div class="row justify-center items-center pagination-row q-mt-xl q-pt-xl q-col-gutter-md">
           <div class="col-auto">
             <div class="row items-center no-wrap q-gutter-xs">
               <q-btn square outline color="dark" icon="chevron_left" :disable="pagina === 1" @click="pagina--" />
@@ -189,7 +189,39 @@ onMounted(async () => {
 
 <style scoped>
 .cuadro-negro {
-  border: 2px solid black;
+  border: 1px solid #66736b;
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(20, 35, 26, 0.12);
+}
+.catalog-page {
+  background: #fff;
+}
+.catalog-shell {
+  width: 100%;
+  max-width: 1600px;
+  min-height: calc(100vh - 90px);
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #d8ded9;
+}
+.filter-card--green {
+  background: linear-gradient(145deg, #dce7df, #b8c9bd);
+}
+.filter-card--olive {
+  background: linear-gradient(145deg, #e3e8d8, #c3cbb5);
+}
+.filter-card--sage {
+  background: linear-gradient(145deg, #d9e4de, #b8c8bf);
+}
+.filter-toolbar--green {
+  background: linear-gradient(145deg, #e1e9e3, #c4d0c7);
+}
+.filter-toolbar--sage {
+  background: linear-gradient(145deg, #d8e3de, #aebfb5);
+}
+.pagination-row {
+  margin-top: 64px;
+  padding-top: 24px;
 }
 .titulo-card {
   display: -webkit-box;
