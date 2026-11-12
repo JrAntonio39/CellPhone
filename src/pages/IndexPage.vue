@@ -95,10 +95,12 @@
         <div class="row q-col-gutter-md product-grid">
           <div v-for="anuncio in paginados" :key="anuncio.id" class="col-6 col-md-3">
             <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro product-card cursor-pointer column" style="height: 100%">
+            <div class="product-photo-frame">
               <q-img :src="fotoUrl(anuncio)" ratio="1" fit="contain" class="product-image" />
-              <q-card-section class="col">
-                <div class="text-h6 text-primary">${{ anuncio.precio }}</div>
-                <div class="text-caption titulo-card">{{ anuncio.titulo }}</div>
+            </div>
+              <q-card-section class="col product-info">
+                <div class="product-title titulo-card">{{ anuncio.titulo }}</div>
+                <div class="product-price">${{ anuncio.precio }}</div>
               </q-card-section>
             </q-card>
           </div>
@@ -241,8 +243,32 @@ onMounted(async () => {
 }
 .product-image {
   background: var(--catalog-card-green);
-  border: 2px solid #006b50;
   box-sizing: border-box;
+}
+.product-photo-frame {
+  margin: 8px 8px 0;
+  padding: 4px;
+  border: 3px solid #006b50;
+  border-radius: 6px;
+  background: #006b50;
+}
+.product-info {
+  background: #006b50;
+  color: #fff;
+  border-radius: 0 0 5px 5px;
+}
+.product-title {
+  min-height: 38px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  font-size: 14px;
+  font-weight: 600;
+}
+.product-price {
+  margin-top: 8px;
+  color: #c8dfca;
+  font-size: 22px;
+  font-weight: 700;
 }
 .pagination-row {
   margin-top: 64px;
