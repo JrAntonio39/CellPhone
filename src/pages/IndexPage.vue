@@ -244,8 +244,10 @@ onMounted(async () => {
 .product-image {
   background: var(--catalog-card-green);
   box-sizing: border-box;
+  display: block;
 }
 .product-photo-frame {
+  flex: 0 0 auto;
   margin: 8px 8px 0;
   padding: 4px;
   border: 3px solid #006b50;
@@ -263,6 +265,7 @@ onMounted(async () => {
   border-bottom: 1px solid rgba(255, 255, 255, 0.45);
   font-size: 14px;
   font-weight: 600;
+  overflow: hidden;
 }
 .product-price {
   margin-top: 8px;
