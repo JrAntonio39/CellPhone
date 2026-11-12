@@ -11,7 +11,9 @@
             infinite
             height="350px"
             class="bg-grey-2 rounded-borders" >
-            <q-carousel-slide v-for="(f,i) in fotos" :key="i" :name="i" :img-src="f" fit="contain" />
+            <q-carousel-slide v-for="(f,i) in fotos" :key="i" :name="i" class="phone-photo-slide">
+              <q-img :src="f" fit="contain" class="phone-photo" />
+            </q-carousel-slide>
           </q-carousel>
         </div>
 
@@ -94,5 +96,13 @@ onMounted(async () => {
 <style scoped>
 .cuadro-negro {
   border: 2px solid black;
+}
+.phone-photo-slide {
+  padding: 0;
+  background: #fff;
+}
+.phone-photo {
+  width: 100%;
+  height: 100%;
 }
 </style>
