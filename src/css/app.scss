@@ -1,5 +1,10 @@
 // app global css
-.q-header {
-  background: linear-gradient(105deg, #173b2b 0%, #28543b 48%, #45634c 100%) !important;
-  box-shadow: 0 3px 12px rgba(13, 31, 21, 0.28);
+.store-header {
+  background: linear-gradient(115deg, #003d32 0%, #006b50 48%, #00a878 100%) !important;
+  box-shadow: 0 3px 14px rgba(0, 35, 27, 0.35);
+}
+
+.page-panel {
+  background: linear-gradient(145deg, #edf3ee, #d8e5db);
+  border: 1px solid #a9b9ad;
 }

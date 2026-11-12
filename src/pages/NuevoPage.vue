@@ -1,8 +1,8 @@
 <template>
-  <q-page class="q-pa-md lt-md q-pb-xl">
+  <q-page class="q-pa-md q-pb-xl">
     <div class="row q-col-gutter-md">
     <div class="col-12 col-md-8">
-    <div class="bg-green-2 rounded-borders q-pa-md">
+    <div class="page-panel rounded-borders q-pa-md">
     <div class="text-h5 text-center text-italic text-weight-bold q-mb-md gt-sm">Nuevo Anuncio</div>
 
     <div class="lt-md">
@@ -190,7 +190,7 @@
     </div>
 
     <div class="col-12 col-md-4">
-      <div class="bg-green-2 rounded-borders q-pa-md" style="height: 100%">
+      <div class="page-panel rounded-borders q-pa-md" style="height: 100%">
         <div class="text-subtitle1 text-weight-bold q-mb-md">Anuncios guardados</div>
         <div v-if="!guardados.length" class="text-grey-7">No hay anuncios en la base de datos</div>
         <q-list v-else separator>

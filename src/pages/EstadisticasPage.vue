@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="bg-green-2 rounded-borders q-pa-md" style="max-width: 1100px; margin: 0 auto">
+    <div class="page-panel rounded-borders q-pa-md" style="max-width: 1100px; margin: 0 auto">
       <div class="text-h5 text-center text-italic text-weight-bold q-mb-md">Estadisticas</div>
 
       <div class="row q-col-gutter-md">
@@ -36,7 +36,7 @@
           <q-card class="cuadro-negro q-pa-md" style="height: 100%">
             <div class="text-subtitle1 text-weight-bold q-mb-md">Margen de ventas: nuevos vs usados</div>
             <svg viewBox="0 0 300 150" class="full-width" style="height: 190px">
-              <polyline points="0,120 60,90 120,45 180,70 240,20 300,40" fill="none" stroke="#2e7d32" stroke-width="4" />
+              <polyline points="0,120 60,90 120,45 180,70 240,20 300,40" fill="none" stroke="#006b50" stroke-width="4" />
               <polyline points="0,140 50,65 130,55 180,85 250,25 300,10" fill="none" stroke="#bdbdbd" stroke-width="3" />
             </svg>
             <div class="row justify-center q-gutter-lg">
@@ -50,8 +50,8 @@
           <q-card class="cuadro-negro q-pa-md text-center" style="height: 100%">
             <div class="text-subtitle1 text-weight-bold q-mb-md">Anuncios registrados: nuevos vs usados</div>
             <svg viewBox="0 0 100 100" class="grafica-circular">
-              <circle cx="50" cy="50" r="48" :fill="pctNuevo >= 100 ? '#2e7d32' : '#bdbdbd'" />
-              <path v-if="sector" :d="sector" fill="#2e7d32" />
+              <circle cx="50" cy="50" r="48" :fill="pctNuevo >= 100 ? '#006b50' : '#bdbdbd'" />
+              <path v-if="sector" :d="sector" fill="#006b50" />
               <circle cx="50" cy="50" r="48" fill="none" stroke="black" stroke-width="4" />
             </svg>
             <div class="row justify-center q-gutter-lg q-mt-sm">
@@ -118,7 +118,7 @@ onMounted(async () => {
 .barra-h {
   height: 22px;
   min-width: 16px;
-  background: #4caf50;
+  background: linear-gradient(90deg, #315a42, #00855f);
   border: 2px solid black;
   border-radius: 3px;
 }
@@ -128,7 +128,7 @@ onMounted(async () => {
 }
 .barra-v {
   width: 40px;
-  background: #4caf50;
+  background: linear-gradient(180deg, #00855f, #315a42);
   border: 2px solid black;
   border-radius: 4px 4px 0 0;
 }

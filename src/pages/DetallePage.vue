@@ -1,6 +1,6 @@
 <template>
-  <q-page class="q-pa-md lt-md q-pb-xl">
-    <div class="bg-green-2 rounded-borders q-pa-md" style="max-width: 1100px; margin: 0 auto">
+  <q-page class="q-pa-md q-pb-xl">
+    <div class="page-panel rounded-borders q-pa-md" style="max-width: 1100px; margin: 0 auto">
       <div class="row q-col-gutter-xl">
         <div class="col-12 col-md-6">
           <q-carousel
