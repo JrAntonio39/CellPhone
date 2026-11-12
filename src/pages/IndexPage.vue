@@ -95,7 +95,7 @@
         <div class="row q-col-gutter-md product-grid">
           <div v-for="anuncio in paginados" :key="anuncio.id" class="col-6 col-md-3">
             <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro product-card cursor-pointer column" style="height: 100%">
-              <q-img :src="fotoUrl(anuncio)" ratio="1" fit="contain" class="bg-grey-2" />
+              <q-img :src="fotoUrl(anuncio)" ratio="1" fit="contain" class="product-image" />
               <q-card-section class="col">
                 <div class="text-h6 text-primary">${{ anuncio.precio }}</div>
                 <div class="text-caption titulo-card">{{ anuncio.titulo }}</div>
@@ -197,6 +197,7 @@ onMounted(async () => {
   background: #fff;
 }
 .catalog-shell {
+  --catalog-card-green: #c8dfca;
   width: 100%;
   max-width: 1600px;
   min-height: calc(100vh - 90px);
@@ -205,17 +206,17 @@ onMounted(async () => {
   border: 1px solid #d8ded9;
 }
 .filter-card--green {
-  background: #c8dfca;
+  background: var(--catalog-card-green);
 }
 .filter-card--olive,
 .filter-card--sage {
-  background: #c8dfca;
+  background: var(--catalog-card-green);
 }
 .filter-toolbar--green {
-  background: #c8dfca;
+  background: var(--catalog-card-green);
 }
 .filter-toolbar--sage {
-  background: #c8dfca;
+  background: var(--catalog-card-green);
 }
 .filter-sidebar {
   position: sticky;
@@ -230,7 +231,10 @@ onMounted(async () => {
   background: #006b50;
 }
 .product-card {
-  background: #c8dfca;
+  background: var(--catalog-card-green);
+}
+.product-image {
+  background: var(--catalog-card-green);
 }
 .pagination-row {
   margin-top: 64px;
