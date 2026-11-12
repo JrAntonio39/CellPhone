@@ -33,7 +33,7 @@
       </div>
 
       <div class="col-12 col-md-9">
-        <div class="row q-col-gutter-md q-mb-md">
+        <div class="row q-col-gutter-md q-mb-md justify-center">
           <div class="col-auto gt-sm">
             <q-card class="filter-toolbar filter-toolbar--green cuadro-negro q-pa-sm row items-center q-gutter-sm" style="height: 100%">
               <span>Precio:</span>
@@ -94,7 +94,7 @@
 
         <div class="row q-col-gutter-md product-grid">
           <div v-for="anuncio in paginados" :key="anuncio.id" class="col-6 col-md-3">
-            <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro cursor-pointer column" style="height: 100%">
+            <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro product-card cursor-pointer column" style="height: 100%">
               <q-img :src="fotoUrl(anuncio)" ratio="1" fit="contain" class="bg-grey-2" />
               <q-card-section class="col">
                 <div class="text-h6 text-primary">${{ anuncio.precio }}</div>
@@ -201,7 +201,7 @@ onMounted(async () => {
   max-width: 1600px;
   min-height: calc(100vh - 90px);
   margin: 0 auto;
-  background: #fff;
+  background: #e8f1e8;
   border: 1px solid #d8ded9;
 }
 .filter-card--green {
@@ -219,14 +219,18 @@ onMounted(async () => {
 }
 .filter-sidebar {
   position: sticky;
-  top: 80px;
+  top: 64px;
   align-self: flex-start;
-  max-height: calc(100vh - 96px);
+  height: calc(100vh - 64px);
+  max-height: calc(100vh - 64px);
   overflow-y: auto;
   scrollbar-width: thin;
   padding: 12px;
-  border-radius: 8px;
-  background: #e8f1e8;
+  border-radius: 8px 8px 0 0;
+  background: #006b50;
+}
+.product-card {
+  background: #c8dfca;
 }
 .pagination-row {
   margin-top: 64px;
