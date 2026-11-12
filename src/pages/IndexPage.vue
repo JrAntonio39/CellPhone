@@ -201,7 +201,7 @@ onMounted(async () => {
   max-width: 1600px;
   min-height: calc(100vh - 90px);
   margin: 0 auto;
-  background: #e8f1e8;
+  background: #fff;
   border: 1px solid #d8ded9;
 }
 .filter-card--green {
@@ -224,6 +224,9 @@ onMounted(async () => {
   max-height: calc(100vh - 96px);
   overflow-y: auto;
   scrollbar-width: thin;
+  padding: 12px;
+  border-radius: 8px;
+  background: #e8f1e8;
 }
 .pagination-row {
   margin-top: 64px;
