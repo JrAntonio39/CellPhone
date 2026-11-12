@@ -212,10 +212,10 @@ onMounted(async () => {
   background: #c8dfca;
 }
 .filter-toolbar--green {
-  background: #c8dfca;
+  background: #b3d2b5;
 }
 .filter-toolbar--sage {
-  background: #c8dfca;
+  background: #b3d2b5;
 }
 .filter-sidebar {
   position: sticky;
@@ -230,7 +230,7 @@ onMounted(async () => {
   background: #006b50;
 }
 .product-card {
-  background: #c8dfca;
+  background: #b3d2b5;
 }
 .pagination-row {
   margin-top: 64px;
