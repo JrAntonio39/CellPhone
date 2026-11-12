@@ -213,10 +213,12 @@ onMounted(async () => {
   background: var(--catalog-card-green);
 }
 .filter-toolbar--green {
-  background: var(--catalog-card-green);
+  background: #006b50;
+  color: #fff;
 }
 .filter-toolbar--sage {
-  background: var(--catalog-card-green);
+  background: #006b50;
+  color: #fff;
 }
 .filter-sidebar {
   position: sticky;
@@ -231,10 +233,16 @@ onMounted(async () => {
   background: #006b50;
 }
 .product-card {
-  background: var(--catalog-card-green);
+  background: #006b50;
+  color: #fff;
+}
+.product-card .text-primary {
+  color: #c8dfca !important;
 }
 .product-image {
   background: var(--catalog-card-green);
+  border: 2px solid #006b50;
+  box-sizing: border-box;
 }
 .pagination-row {
   margin-top: 64px;
