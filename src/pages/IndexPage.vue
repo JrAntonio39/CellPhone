@@ -94,9 +94,9 @@
 
         <div class="row q-col-gutter-md product-grid">
           <div v-for="anuncio in paginados" :key="anuncio.id" class="col-6 col-md-3">
-            <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro product-card cursor-pointer column" style="height: 100%">
+            <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro product-card cursor-pointer column">
             <div class="product-photo-frame">
-              <q-img :src="fotoUrl(anuncio)" ratio="1" fit="contain" class="product-image" />
+              <q-img :src="fotoUrl(anuncio)" fit="contain" class="product-image" />
             </div>
               <q-card-section class="col product-info">
                 <div class="product-title titulo-card">{{ anuncio.titulo }}</div>
@@ -237,6 +237,7 @@ onMounted(async () => {
 .product-card {
   background: #006b50;
   color: #fff;
+  overflow: hidden;
 }
 .product-card .text-primary {
   color: #c8dfca !important;
@@ -245,9 +246,12 @@ onMounted(async () => {
   background: var(--catalog-card-green);
   box-sizing: border-box;
   display: block;
+  width: 100%;
+  height: 280px;
 }
 .product-photo-frame {
-  flex: 0 0 auto;
+  flex: 0 0 300px;
+  height: 300px;
   margin: 8px 8px 0;
   padding: 4px;
   border: 3px solid #006b50;
