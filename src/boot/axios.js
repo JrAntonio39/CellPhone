@@ -2,11 +2,7 @@ import { defineBoot } from '#q-app'
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://localhost:5984',
-  auth: {
-    username: 'admin',
-    password: 'admin123'
-  }
+  baseURL: 'https://couchdbbackend.esaapp.com'
 })
 
 export default defineBoot(({ app }) => {
