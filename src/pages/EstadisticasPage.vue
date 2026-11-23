@@ -36,7 +36,7 @@
           <q-card class="cuadro-negro q-pa-md" style="height: 100%">
             <div class="text-subtitle1 text-weight-bold q-mb-md">Margen de ventas: nuevos vs usados</div>
             <svg viewBox="0 0 300 150" class="full-width" style="height: 190px">
-              <polyline points="0,120 60,90 120,45 180,70 240,20 300,40" fill="none" stroke="#006b50" stroke-width="4" />
+              <polyline points="0,120 60,90 120,45 180,70 240,20 300,40" fill="none" stroke="#003e32" stroke-width="4" />
               <polyline points="0,140 50,65 130,55 180,85 250,25 300,10" fill="none" stroke="#bdbdbd" stroke-width="3" />
             </svg>
             <div class="row justify-center q-gutter-lg">
@@ -50,8 +50,8 @@
           <q-card class="cuadro-negro q-pa-md text-center" style="height: 100%">
             <div class="text-subtitle1 text-weight-bold q-mb-md">Anuncios registrados: nuevos vs usados</div>
             <svg viewBox="0 0 100 100" class="grafica-circular">
-              <circle cx="50" cy="50" r="48" :fill="pctNuevo >= 100 ? '#006b50' : '#bdbdbd'" />
-              <path v-if="sector" :d="sector" fill="#006b50" />
+              <circle cx="50" cy="50" r="48" :fill="pctNuevo >= 100 ? '#003e32' : '#bdbdbd'" />
+              <path v-if="sector" :d="sector" fill="#003e32" />
               <circle cx="50" cy="50" r="48" fill="none" stroke="black" stroke-width="4" />
             </svg>
             <div class="row justify-center q-gutter-lg q-mt-sm">

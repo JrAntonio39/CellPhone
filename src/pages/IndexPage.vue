@@ -1,7 +1,7 @@
 <template>
   <q-page class="catalog-page q-pa-md">
     <div class="catalog-shell rounded-borders q-pa-md column">
-    <div class="row q-col-gutter-md">
+    <div class="row q-col-gutter-md catalog-layout-row">
       <div class="col-12 col-md-3 gt-sm filter-sidebar">
         <q-toggle v-model="soloNuevo" label="Nuevo" color="primary" />
         <q-card class="filter-card filter-card--green cuadro-negro q-mb-md">
@@ -32,7 +32,7 @@
         </q-card>
       </div>
 
-      <div class="col-12 col-md-9">
+      <div class="col-12 col-md-9 catalog-content">
         <div class="row q-col-gutter-md q-mb-md justify-center">
           <div class="col-auto gt-sm">
             <q-card class="filter-toolbar filter-toolbar--green cuadro-negro q-pa-sm row items-center q-gutter-sm" style="height: 100%">
@@ -60,6 +60,17 @@
               <q-menu>
                 <div class="q-pa-md scroll" style="width: 230px; max-height: 70vh">
                   <q-toggle v-model="soloNuevo" label="Nuevo" color="primary" class="q-mb-sm" />
+                  <q-card class="filter-toolbar filter-toolbar--green cuadro-negro q-pa-sm q-mb-sm">
+                    <div class="text-subtitle2 q-mb-xs">Rango de precio</div>
+                    <div class="row q-col-gutter-sm">
+                      <div class="col-6">
+                        <q-input v-model="precioDesde" dense outlined bg-color="white" prefix="$" label="Desde" type="number" />
+                      </div>
+                      <div class="col-6">
+                        <q-input v-model="precioHasta" dense outlined bg-color="white" prefix="$" label="Hasta" type="number" />
+                      </div>
+                    </div>
+                  </q-card>
                   <q-card class="filter-card filter-card--green cuadro-negro q-mb-sm">
                     <q-card-section class="text-subtitle2 q-pb-xs">Marca</q-card-section>
                     <q-card-section class="q-pt-none column">
@@ -92,8 +103,8 @@
           </div>
         </div>
 
-        <div class="row q-col-gutter-md product-grid">
-          <div v-for="anuncio in paginados" :key="anuncio.id" class="col-6 col-md-3">
+        <div class="product-grid">
+          <div v-for="anuncio in paginados" :key="anuncio.id" class="product-item">
             <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro product-card cursor-pointer column">
             <div class="product-photo-frame">
               <q-img :src="fotoUrl(anuncio)" fit="contain" class="product-image" />
@@ -106,7 +117,8 @@
           </div>
         </div>
 
-        <div class="row justify-center items-center pagination-row q-mt-xl q-pt-xl q-col-gutter-md">
+        <div class="pagination-section">
+        <div class="row justify-center items-center pagination-row q-col-gutter-md">
           <div class="col-auto">
             <div class="row items-center no-wrap q-gutter-xs">
               <q-btn square outline color="dark" icon="chevron_left" :disable="pagina === 1" @click="pagina--" />
@@ -120,6 +132,7 @@
               <q-select v-model="porPagina" :options="[4, 8, 12, 25]" dense outlined options-dense style="width: 80px" />
             </div>
           </div>
+        </div>
         </div>
 
         <div v-if="!filtrados.length" class="text-grey-7 text-center q-mt-lg">No se encontraron anuncios con esos filtros</div>
@@ -196,7 +209,7 @@ onMounted(async () => {
   box-shadow: 0 3px 10px rgba(20, 35, 26, 0.12);
 }
 .catalog-page {
-  background: #fff;
+  background: transparent;
 }
 .catalog-shell {
   --catalog-card-green: #c8dfca;
@@ -204,8 +217,18 @@ onMounted(async () => {
   max-width: 1600px;
   min-height: calc(100vh - 90px);
   margin: 0 auto;
-  background: #e8f1e8;
-  border: 1px solid #d8ded9;
+  background: rgba(195, 233, 211, 0.035);
+  border: 1px solid rgba(211, 245, 225, 0.24);
+  box-shadow: 0 10px 28px rgba(0, 25, 31, 0.2), inset 0 1px rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(1px);
+}
+.catalog-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.catalog-layout-row {
+  flex: 1 1 auto;
 }
 .filter-card--green {
   background: var(--catalog-card-green);
@@ -215,12 +238,12 @@ onMounted(async () => {
   background: var(--catalog-card-green);
 }
 .filter-toolbar--green {
-  background: #006b50;
-  color: #fff;
+  background: rgba(220, 241, 225, 0.42);
+  color: #17352a;
 }
 .filter-toolbar--sage {
-  background: #006b50;
-  color: #fff;
+  background: rgba(220, 241, 225, 0.42);
+  color: #17352a;
 }
 .filter-sidebar {
   position: sticky;
@@ -232,59 +255,108 @@ onMounted(async () => {
   scrollbar-width: thin;
   padding: 12px;
   border-radius: 8px 8px 0 0;
-  background: #006b50;
+  background: rgba(5, 78, 70, 0.055);
+  border: 1px solid rgba(224, 255, 239, 0.2);
+  box-shadow: 0 8px 22px rgba(0, 30, 30, 0.18), inset 0 1px rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(1px);
+}
+.filter-sidebar .filter-card {
+  background: rgba(220, 241, 225, 0.46);
+  border-color: rgba(230, 255, 238, 0.65);
+  box-shadow: 0 5px 14px rgba(0, 34, 29, 0.15);
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+.product-item {
+  min-width: 0;
+  display: flex;
 }
 .product-card {
-  background: #006b50;
-  color: #fff;
+  background: rgba(232, 246, 236, 0.46);
+  color: #17251d;
   overflow: hidden;
+  border: 1px solid rgba(220, 246, 226, 0.75);
+  border-radius: 10px;
+  box-shadow: 0 7px 20px rgba(0, 35, 30, 0.2), inset 0 1px rgba(255, 255, 255, 0.65);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+  width: 100%;
+  height: 360px;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 45, 34, 0.2);
 }
 .product-card .text-primary {
-  color: #c8dfca !important;
+  color: #003e32 !important;
 }
 .product-image {
-  background: var(--catalog-card-green);
+  background: rgba(255, 255, 255, 0.92);
   box-sizing: border-box;
   display: block;
   width: 100%;
-  height: 280px;
+  height: 168px;
 }
 .product-photo-frame {
-  flex: 0 0 300px;
-  height: 300px;
+  flex: 0 0 188px;
+  height: 188px;
   margin: 8px 8px 0;
-  padding: 4px;
-  border: 3px solid #006b50;
-  border-radius: 6px;
-  background: #006b50;
+  padding: 6px;
+  border: 1px solid #bfd6c5;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
 }
 .product-info {
-  background: #006b50;
-  color: #fff;
-  border-radius: 0 0 5px 5px;
+  background: transparent;
+  color: #17251d;
+  border-radius: 0 0 9px 9px;
 }
 .product-title {
-  min-height: 38px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  min-height: 42px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d4e2d7;
   font-size: 14px;
   font-weight: 600;
-  overflow: hidden;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 .product-price {
   margin-top: 8px;
-  color: #c8dfca;
-  font-size: 22px;
+  color: #003e32;
+  font-size: 20px;
   font-weight: 700;
 }
 .pagination-row {
-  margin-top: 64px;
-  padding-top: 24px;
+  margin: 0;
+  padding: 0 0 20px;
+}
+.pagination-section {
+  display: flex;
+  flex: 1 0 260px;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 260px;
 }
 .titulo-card {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  display: block;
+}
+@media (max-width: 599px) {
+  .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .product-card {
+    height: 380px;
+  }
+  .product-photo-frame {
+    flex-basis: 150px;
+    height: 150px;
+  }
+  .product-image {
+    height: 130px;
+  }
 }
 </style>

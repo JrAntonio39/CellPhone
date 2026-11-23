@@ -5,7 +5,7 @@
 
       <div v-if="!carrito.length" class="text-center text-grey-7">No has agregado anuncios al carrito</div>
 
-      <q-list v-else separator class="cuadro-negro rounded-borders bg-white">
+      <q-list v-else separator class="cuadro-negro rounded-borders cart-list">
         <q-item v-for="a in carrito" :key="a.id">
           <q-item-section>
             <q-item-label class="text-weight-bold">{{ a.titulo }}</q-item-label>
@@ -34,5 +34,8 @@ import { carrito, quitarDelCarrito } from '@/composables/carrito'
 .cart-panel {
   width: 100%;
   min-height: calc(100vh - 90px);
+}
+.cart-list {
+  background: rgba(232, 246, 236, 0.3);
 }
 </style>
