@@ -38,7 +38,7 @@
 
       <div class="row items-center justify-center q-mb-md">
         <span class="q-mr-sm">Precio:</span>
-        <q-input v-model="form.precio" type="number" prefix="$" borderless dense hide-bottom-space input-class="text-h5 text-weight-bold" style="width: 150px" />
+        <q-input v-model="form.precio" type="number" min="0" step="1" @update:model-value="normalizarNoNegativo('precio', $event)" prefix="$" borderless dense hide-bottom-space input-class="text-h5 text-weight-bold" style="width: 150px" />
       </div>
 
       <div class="row q-col-gutter-sm q-mb-md">
@@ -68,7 +68,7 @@
         </div>
         <div class="row items-center">
           <span class="campo-movil">Pantalla:</span>
-          <q-input v-model="form.pantalla" dense hide-bottom-space type="number" step="0.1" placeholder="5.5" class="col" />
+          <q-input v-model="form.pantalla" dense hide-bottom-space type="number" min="0" step="0.1" @update:model-value="normalizarNoNegativo('pantalla', $event)" placeholder="5.5" class="col" />
         </div>
         <div class="row items-center">
           <span class="campo-movil">Sistema:</span>
@@ -76,11 +76,11 @@
         </div>
         <div class="row items-center">
           <span class="campo-movil">Rom:</span>
-          <q-input v-model="form.rom" dense hide-bottom-space type="number" suffix="GB" class="col" />
+          <q-input v-model="form.rom" dense hide-bottom-space type="number" min="0" step="1" @update:model-value="normalizarNoNegativo('rom', $event)" suffix="GB" class="col" />
         </div>
         <div class="row items-center">
           <span class="campo-movil">Ram:</span>
-          <q-input v-model="form.ram" dense hide-bottom-space type="number" suffix="GB" class="col" />
+          <q-input v-model="form.ram" dense hide-bottom-space type="number" min="0" step="1" @update:model-value="normalizarNoNegativo('ram', $event)" suffix="GB" class="col" />
         </div>
       </q-card>
 
@@ -108,7 +108,7 @@
           </div>
           <div class="row items-center q-mb-sm">
             <span class="campo">Pantalla:</span>
-            <q-input v-model="form.pantalla" dense outlined type="number" step="0.1" placeholder="5.5" style="width:100px" />
+            <q-input v-model="form.pantalla" dense outlined type="number" min="0" step="0.1" @update:model-value="normalizarNoNegativo('pantalla', $event)" placeholder="5.5" style="width:100px" />
           </div>
           <div class="row items-center q-mb-sm">
             <span class="campo">Sistema:</span>
@@ -116,12 +116,12 @@
           </div>
           <div class="row items-center q-mb-sm">
             <span class="campo">ROM:</span>
-            <q-input v-model="form.rom" dense outlined type="number" placeholder="64" suffix="GB" style="width:110px" />
+            <q-input v-model="form.rom" dense outlined type="number" min="0" step="1" @update:model-value="normalizarNoNegativo('rom', $event)" placeholder="64" suffix="GB" style="width:110px" />
             <span class="q-ml-sm">Almacenamiento interno</span>
           </div>
           <div class="row items-center">
             <span class="campo">RAM:</span>
-            <q-input v-model="form.ram" dense outlined type="number" placeholder="2" suffix="GB" style="width:110px" />
+            <q-input v-model="form.ram" dense outlined type="number" min="0" step="1" @update:model-value="normalizarNoNegativo('ram', $event)" placeholder="2" suffix="GB" style="width:110px" />
           </div>
         </q-card>
         <q-card class="cuadro-negro q-pa-md q-mt-md">
@@ -179,7 +179,7 @@
 
         <q-card bordered class="q-pa-md text-center relative-position q-mb-md" style="max-width: 280px; margin: 0 auto">
           <div class="etiqueta-precio text-weight-bold q-px-sm">PRECIO</div>
-          <q-input v-model="form.precio" type="number" prefix="$" outlined dense />
+          <q-input v-model="form.precio" type="number" min="0" step="1" @update:model-value="normalizarNoNegativo('precio', $event)" prefix="$" outlined dense />
         </q-card>
 
         <div class="row justify-center q-gutter-md q-mt-lg gt-sm">
@@ -310,7 +310,18 @@ const preview = computed(() => {
   return ultima ? URL.createObjectURL(ultima) : null
 })
 
+function normalizarNoNegativo (campo, valor) {
+  if (valor !== '' && valor !== null && Number(valor) < 0) {
+    form[campo] = 0
+  }
+}
+
 function validar () {
+  for (const campo of ['pantalla', 'rom', 'ram', 'precio']) {
+    if (form[campo] !== '' && Number(form[campo]) < 0) {
+      return 'Pantalla, ROM, RAM y precio no pueden tener valores negativos'
+    }
+  }
   if (!form.titulo) return 'Falta el titulo del anuncio'
   if (!form.marca) return 'Falta la marca'
   if (!form.modelo) return 'Falta el modelo'
