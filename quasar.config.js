@@ -75,6 +75,13 @@ export default defineConfig((/* ctx */) => {
       // vueDevtools: true,
       // https: true,
       open: true, // opens browser window automatically
+      proxy: {
+        '/couchdb': {
+          target: 'http://localhost:5984',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/couchdb/, ''),
+        },
+      },
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

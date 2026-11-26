@@ -66,6 +66,8 @@ import { useQuasar } from 'quasar'
 import { db } from '@/boot/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 import { agregarAlCarrito } from '@/composables/carrito'
+import { urlsFotosAnuncio } from '@/utils/fotos'
+import { cargarFotoCouchDB } from '@/services/couchdb'
 
 const route = useRoute()
 const $q = useQuasar()
@@ -83,10 +85,17 @@ onMounted(async () => {
   const snap = await getDoc(doc(db, 'anuncios', route.params.id))
   if(snap.exists()) {
     anuncio.value = snap.data()
-    const urls = (anuncio.value.fotoIds || [])
-      .filter((f) => String(f).includes('/'))
-      .map((f) => 'http://localhost:5984/fotos/' + f)
-    if (urls.length) fotos.value = urls
+    const referencias = anuncio.value.fotoIds || anuncio.value.fotos || []
+    const urls = await Promise.all(referencias.map(async (referencia) => {
+      try {
+        return await cargarFotoCouchDB(referencia) || urlsFotosAnuncio({ fotoIds: [referencia] })[0]
+      } catch (error) {
+        console.error('No se pudo cargar la foto del anuncio:', error)
+        return null
+      }
+    }))
+    const urlsValidas = urls.filter(Boolean)
+    if (urlsValidas.length) fotos.value = urlsValidas
   }
 })
 

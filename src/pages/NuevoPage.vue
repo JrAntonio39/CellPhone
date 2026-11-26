@@ -24,7 +24,7 @@
         </q-carousel-slide>
         <q-carousel-slide v-for="(f, i) in fotos" :key="i" :name="i + 1" :img-src="fotosUrls[i]" fit="contain" />
       </q-carousel>
-      <q-file ref="inputFotoMovil" v-model="nuevaFoto" class="hidden" @update:model-value="agregarFoto" />
+      <q-file ref="inputFotoMovil" v-model="nuevaFoto" class="hidden" accept="image/*" @update:model-value="agregarFoto" />
 
       <div class="row justify-center items-center q-gutter-sm q-mb-md">
         <q-btn round color="primary" icon="remove" @click="quitarFoto" />
@@ -128,7 +128,7 @@
           <div class="text-subtitle2 q-mb-md">Imagenes</div>
           <div class="row items-center q-gutter-md">
             <div class="column q-gutter-sm">
-             <q-file ref="inputFoto" v-model="nuevaFoto" class="hidden" @update:model-value="agregarFoto" />
+             <q-file ref="inputFoto" v-model="nuevaFoto" class="hidden" accept="image/*" @update:model-value="agregarFoto" />
               <q-btn round color="primary" icon="add" @click="inputFoto.pickFiles()" />
               <q-btn round color="primary" icon="remove" @click="quitarFoto" />
             </div>
@@ -150,9 +150,12 @@
               </tbody>
             </q-markup-table>
 
-            <div class="col caja-preview">
+            <div class="col caja-preview" tabindex="0" @paste="pegarImagen">
               <img v-if="preview" :src="preview" style="width:100%; height:100%; object-fit: contain" />
-              <q-icon v-else name="image" size="80px" color="grey-5" />
+              <div v-else class="column items-center text-center text-grey-7">
+                <q-icon name="image" size="80px" color="grey-5" />
+                <span class="text-caption">Elige una imagen con + o pégala aquí</span>
+              </div>
             </div>
           </div>
         </q-card>
@@ -227,7 +230,7 @@ import { reactive, ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { db } from '@/boot/firebase'
-import { api } from '@/boot/axios'
+import { subirFotoCouchDB } from '@/services/couchdb'
 import { collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from 'firebase/firestore'
 
 const router = useRouter()
@@ -270,9 +273,23 @@ onMounted(cargarGuardados)
 
 function agregarFoto (file) {
   if (!file) return
-  fotos.value.push(file)
+  const imagen = Array.isArray(file) ? file : [file]
+  for (const archivo of imagen) {
+    if (!(archivo instanceof File) || !archivo.type.startsWith('image/')) continue
+    fotos.value.push(archivo)
+  }
   nuevaFoto.value = null
   fotoSlide.value = fotos.value.length
+}
+
+function pegarImagen (event) {
+  const archivo = Array.from(event.clipboardData?.items || [])
+    .find((item) => item.type.startsWith('image/'))
+    ?.getAsFile()
+  if (!archivo) return
+  event.preventDefault()
+  agregarFoto(new File([archivo], `imagen-portapapeles-${Date.now()}.${archivo.type.split('/')[1] || 'png'}`, { type: archivo.type }))
+  $q.notify({ type: 'positive', message: 'Imagen pegada. Ya aparece en la vista previa.', timeout: 1800 })
 }
 
 function quitarFoto () {
@@ -285,8 +302,7 @@ function tamanoKB (file) {
 }
 
 function tipoFoto (file) {
-  const t = file.type.split('/')[1]
-  return t === 'jpeg' ? 'jpg' : t
+  return file.type.split('/')[1]?.replace('jpeg', 'jpg') || 'imagen'
 }
 
 const preview = computed(() => {
@@ -313,17 +329,7 @@ async function crear () {
     return
   }
   try {
-    const fotoIds = []
-
-    for (let i = 0; i < fotos.value.length; i++) {
-      const f = fotos.value[i]
-      const id = `foto-${Date.now()}-${i}`
-      const ext = tipoFoto(f)
-      await api.put(`/fotos/${id}/foto.${ext}`, f, {
-        headers: { 'Content-Type': f.type }
-      })
-      fotoIds.push(`${id}/foto.${ext}`)
-    }
+    const fotoIds = await Promise.all(fotos.value.map(subirFotoCouchDB))
 
     await addDoc(collection(db, 'anuncios'), {
       titulo: form.titulo,
@@ -347,10 +353,10 @@ async function crear () {
       message: 'Se guardó satisfactoriamente', timeout: 2000
     })
     router.push('/')
-  } catch {
+  } catch (err) {
     $q.notify({
       type: 'negative',
-      message: 'Error al crear el anuncio', timeout: 2000
+      message: err.message || 'Error al crear el anuncio', timeout: 4000
     })
   }
 }

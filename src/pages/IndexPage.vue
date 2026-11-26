@@ -144,11 +144,16 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useQuasar } from 'quasar'
 import { db } from '@/boot/firebase'
 import { collection, getDocs } from 'firebase/firestore'
 import { busqueda } from '@/composables/busqueda'
+import { urlsFotosAnuncio } from '@/utils/fotos'
+import { cargarFotoCouchDB } from '@/services/couchdb'
 
 const anuncios = ref([])
+const fotosCargadas = ref({})
+const $q = useQuasar()
 
 const soloNuevo = ref(false)
 const marcas = ref([])
@@ -166,8 +171,7 @@ const igual = (a, b) => String(a || '').toLowerCase() === String(b || '').toLowe
 
 const fotoFija = 'https://cdn.smart-gsm.com/img/picture/big/xiaomi-redmi-12.jpg'
 function fotoUrl (a) {
-  const f = (a.fotoIds || [])[0]
-  return f && String(f).includes('/') ? 'http://localhost:5984/fotos/' + f : fotoFija
+  return fotosCargadas.value[a.id] || urlsFotosAnuncio(a)[0] || fotoFija
 }
 
 const filtrados = computed(() => {
@@ -197,8 +201,24 @@ watch(filtrados, () => { pagina.value = 1 })
 watch(porPagina, () => { pagina.value = 1 })
 
 onMounted(async () => {
-  const snap = await getDocs(collection(db, 'anuncios'))
-  anuncios.value = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+  try {
+    const snap = await getDocs(collection(db, 'anuncios'))
+    anuncios.value = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+    const resultados = await Promise.allSettled(anuncios.value.map(async (anuncio) => {
+      const foto = (anuncio.fotoIds || anuncio.fotos || [])[0]
+      const url = await cargarFotoCouchDB(foto)
+      if (url) fotosCargadas.value[anuncio.id] = url
+    }))
+    resultados.forEach((resultado) => {
+      if (resultado.status === 'rejected') console.error('No se pudo cargar una imagen de CouchDB:', resultado.reason)
+    })
+    if (!anuncios.value.length) {
+      $q.notify({ type: 'warning', message: 'Firestore respondió, pero no hay anuncios en la colección "anuncios".', timeout: 5000 })
+    }
+  } catch (error) {
+    console.error('Error al consultar los anuncios en Firestore:', error)
+    $q.notify({ type: 'negative', message: `No se pudieron cargar los artículos desde Firestore: ${error.message}`, timeout: 7000 })
+  }
 })
 </script>
 
