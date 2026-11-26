@@ -4,17 +4,22 @@
       <div class="row q-col-gutter-xl">
         <div class="col-12 col-md-6">
           <q-carousel
+            v-if="fotos.length"
             v-model="slide"
             arrows
             navigation
             animated
             infinite
             height="350px"
-            class="bg-grey-2 rounded-borders" >
+            class="bg-grey-2 rounded-borders">
             <q-carousel-slide v-for="(f,i) in fotos" :key="i" :name="i" class="phone-photo-slide">
-              <q-img :src="f" fit="contain" class="phone-photo" />
+              <q-img :src="f" fit="contain" class="phone-photo" @error="removerFoto(i)" />
             </q-carousel-slide>
           </q-carousel>
+          <div v-else class="phone-photo-empty column items-center justify-center rounded-borders">
+            <q-icon name="image_not_supported" size="56px" />
+            <span>Foto no disponible</span>
+          </div>
         </div>
 
         <div class="col-12 col-md-6">
@@ -73,8 +78,11 @@ const route = useRoute()
 const $q = useQuasar()
 const anuncio = ref({})
 const slide = ref(0)
-const fotoFija = 'https://cdn.smart-gsm.com/img/picture/big/xiaomi-redmi-12.jpg'
-const fotos = ref([fotoFija])
+const fotos = ref([])
+function removerFoto (index) {
+  fotos.value.splice(index, 1)
+  if (slide.value >= fotos.value.length) slide.value = Math.max(0, fotos.value.length - 1)
+}
 
 function comprar () {
   agregarAlCarrito({ id: route.params.id, ...anuncio.value })
@@ -95,7 +103,7 @@ onMounted(async () => {
       }
     }))
     const urlsValidas = urls.filter(Boolean)
-    if (urlsValidas.length) fotos.value = urlsValidas
+    fotos.value = urlsValidas
   }
 })
 
@@ -109,6 +117,11 @@ onMounted(async () => {
 .phone-photo-slide {
   padding: 0;
   background: #fff;
+}
+.phone-photo-empty {
+  height: 350px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #31443b;
 }
 .phone-photo {
   width: 100%;

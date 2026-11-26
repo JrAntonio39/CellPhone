@@ -107,7 +107,11 @@
           <div v-for="anuncio in paginados" :key="anuncio.id" class="product-item">
             <q-card @click="$router.push('/detalle/' + anuncio.id)" class="cuadro-negro product-card cursor-pointer column">
             <div class="product-photo-frame">
-              <q-img :src="fotoUrl(anuncio)" fit="contain" class="product-image" />
+              <q-img v-if="fotoUrl(anuncio)" :src="fotoUrl(anuncio)" fit="contain" class="product-image" @error="marcarFotoFallida(anuncio.id)" />
+              <div v-else class="product-image-empty column items-center justify-center text-grey-7">
+                <q-icon name="image_not_supported" size="42px" />
+                <span>Foto no disponible</span>
+              </div>
             </div>
               <q-card-section class="col product-info">
                 <div class="product-title titulo-card">{{ anuncio.titulo }}</div>
@@ -169,9 +173,13 @@ const ordenes = [
 
 const igual = (a, b) => String(a || '').toLowerCase() === String(b || '').toLowerCase()
 
-const fotoFija = 'https://cdn.smart-gsm.com/img/picture/big/xiaomi-redmi-12.jpg'
+const fotosFallidas = ref({})
 function fotoUrl (a) {
-  return fotosCargadas.value[a.id] || urlsFotosAnuncio(a)[0] || fotoFija
+  if (fotosFallidas.value[a.id]) return null
+  return fotosCargadas.value[a.id] || urlsFotosAnuncio(a)[0] || null
+}
+function marcarFotoFallida (id) {
+  fotosFallidas.value[id] = true
 }
 
 const filtrados = computed(() => {
@@ -320,6 +328,11 @@ onMounted(async () => {
   width: 100%;
   height: 168px;
 }
+.product-image-empty {
+  width: 100%;
+  height: 168px;
+  background: rgba(255, 255, 255, 0.28);
+}
 .product-photo-frame {
   flex: 0 0 188px;
   height: 188px;
@@ -376,6 +389,9 @@ onMounted(async () => {
     height: 150px;
   }
   .product-image {
+    height: 130px;
+  }
+  .product-image-empty {
     height: 130px;
   }
 }
